@@ -436,6 +436,7 @@ static void on_reconfigure(struct sfwc_host *host)
 
 static const struct sfwc_plugin plugin = {
     .api_version = SFWC_PLUGIN_API_VERSION,
+    .struct_size = sizeof(struct sfwc_plugin),
     .name = "wobbly",
     .wlroots_version = WLR_VERSION_STR,
     .init = on_init,

@@ -1,19 +1,34 @@
 name: build
 on: [push, pull_request]
+env:
+  # The compositor the plugins are built and tested against (a branch or tag of the sfwc repository).
+  SFWC_REF: plugin-hooks
 jobs:
-  plugins:
-    timeout-minutes: 30
+  unit-tests:
+    timeout-minutes: 10
+    # The pure parts (spring mesh, curves, animation rules, flames) with sanitizers; no compositor.
     runs-on: ubuntu-24.04
-    env:
-      PREFIX: ${{ github.workspace }}/prefix
     steps:
       - uses: actions/checkout@v4
-      - name: Check out sfwc (the compositor the plugins are built against)
+      - run: sudo DEBIAN_FRONTEND=noninteractive NEEDRESTART_MODE=a apt-get -o Acquire::Retries=3 update && sudo DEBIAN_FRONTEND=noninteractive NEEDRESTART_MODE=a apt-get -o Acquire::Retries=3 install -y meson ninja-build gcc pkg-config libcairo2-dev
+      - run: meson setup build-unit -Dmodules=false -Db_sanitize=address,undefined -Db_lundef=false
+      - run: meson test -C build-unit --print-errorlogs
+        env:
+          ASAN_OPTIONS: detect_leaks=0
+
+  plugins:
+    timeout-minutes: 40
+    # sfwc is a meson subproject (with its own wlroots): the plugins are built against exactly
+    # that, then sfwc's end-to-end scenarios run with the plugins loaded.
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check out sfwc
         uses: actions/checkout@v4
         with:
           repository: L0rdr-ln/Simple-Floating-Wayland-Compositor
-          ref: main
-          path: sfwc
+          ref: ${{ env.SFWC_REF }}
+          path: subprojects/sfwc
       - name: Install dependencies
         run: |
           sudo DEBIAN_FRONTEND=noninteractive NEEDRESTART_MODE=a apt-get -o Acquire::Retries=3 update
@@ -27,23 +42,7 @@ jobs:
             libxcb-render-util0-dev
       - name: Newer meson (wlroots needs meson >= 1.4)
         run: python3 -m pip install --user "meson>=1.4,<2" && echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-      - name: Build and install sfwc (with the wlroots it needs) into a private prefix
-        run: |
-          cd sfwc
-          meson setup build --prefix "$PREFIX" -Dwlroots:examples=false -Dwayland:documentation=false -Dwayland:tests=false -Dwayland:dtd_validation=false
-          meson compile -C build
-          meson install -C build
-      - name: Build the plugins and run their unit tests
-        run: |
-          export PKG_CONFIG_PATH="$(dirname "$(find "$PREFIX" -name sfwc-plugin.pc | head -n1)")"
-          export LD_LIBRARY_PATH="$(dirname "$(find "$PREFIX" -name 'libwlroots*.so' | head -n1)")"
-          meson setup build --prefix "$PREFIX"
-          meson compile -C build
-          # unit tests again with sanitizers (the plugin itself must not use them: the compositor
-          # it is loaded into is built without)
-          meson setup build-asan -Db_sanitize=address,undefined -Db_lundef=false
-          meson test -C build-asan --print-errorlogs
-      - name: End-to-end test of the plugins in the compositor
-        run: |
-          export LD_LIBRARY_PATH="$(dirname "$(find "$PREFIX" -name 'libwlroots*.so' | head -n1)")"
-          SFWC_PLUGIN_PATH="$PWD/build" bash sfwc/tests/run_client_test.sh sfwc/build/sfwc sfwc/build/tests/client_test wobbly
+      - run: meson setup build -De2e=true -Dwlroots:examples=false -Dwayland:documentation=false -Dwayland:tests=false -Dwayland:dtd_validation=false
+      - run: meson compile -C build
+      - name: Unit tests and end-to-end scenarios of the plugins
+        run: meson test -C build --suite sfwc-plugins --print-errorlogs

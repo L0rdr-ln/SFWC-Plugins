@@ -1,0 +1,4 @@
+option('modules', type: 'boolean', value: true,
+  description: 'Build the plugins (needs sfwc and wlroots). Disable to build only the unit tests.')
+option('e2e', type: 'boolean', value: false,
+  description: 'Also run sfwc\'s end-to-end scenarios against the plugins (needs sfwc as subprojects/sfwc).')
