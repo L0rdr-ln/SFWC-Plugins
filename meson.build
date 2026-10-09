@@ -8,7 +8,6 @@ add_project_arguments('-DWLR_USE_UNSTABLE', language: 'c')
 
 libm = meson.get_compiler('c').find_library('m')
 cairo = dependency('cairo')
-libdrm = dependency('libdrm', required: get_option('modules'))
 
 # ---------------------------------------------------------------- pure code, unit-tested alone
 mesh_lib = static_library('mesh', 'wobbly/mesh.c', dependencies: libm, pic: true)
@@ -48,7 +47,7 @@ if get_option('modules')
     name_prefix: '',
     link_with: [animcfg_lib, anim_lib, fire_lib],
     include_directories: include_directories('animations'),
-    dependencies: [sfwc_plugin, cairo, libdrm, libm],
+    dependencies: [sfwc_plugin, cairo, libm],
     c_args: plugin_args,
     install: true, install_dir: plugin_dir)
 
