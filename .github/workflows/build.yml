@@ -2,7 +2,7 @@ name: build
 on: [push, pull_request]
 env:
   # The compositor the plugins are built and tested against (a branch or tag of the sfwc repository).
-  SFWC_REF: plugin-hooks
+  SFWC_REF: main
 jobs:
   unit-tests:
     timeout-minutes: 10
