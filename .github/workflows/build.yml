@@ -37,9 +37,12 @@ jobs:
         run: |
           export PKG_CONFIG_PATH="$(dirname "$(find "$PREFIX" -name sfwc-plugin.pc | head -n1)")"
           export LD_LIBRARY_PATH="$(dirname "$(find "$PREFIX" -name 'libwlroots*.so' | head -n1)")"
-          meson setup build -Db_sanitize=address,undefined -Db_lundef=false --prefix "$PREFIX"
+          meson setup build --prefix "$PREFIX"
           meson compile -C build
-          meson test -C build --print-errorlogs
+          # unit tests again with sanitizers (the plugin itself must not use them: the compositor
+          # it is loaded into is built without)
+          meson setup build-asan -Db_sanitize=address,undefined -Db_lundef=false
+          meson test -C build-asan --print-errorlogs
       - name: End-to-end test of the plugins in the compositor
         run: |
           export LD_LIBRARY_PATH="$(dirname "$(find "$PREFIX" -name 'libwlroots*.so' | head -n1)")"
