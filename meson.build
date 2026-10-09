@@ -60,7 +60,8 @@ if get_option('modules')
       test('compositor-client-' + mode, find_program('bash'),
         args: [run_script, sfwc.get_variable('sfwc_exe'), sfwc.get_variable('client_test'), mode],
         env: {'SFWC_PLUGIN_PATH': meson.current_build_dir()},
-        suite: 'sfwc-plugins', timeout: 120)
+        suite: 'sfwc-plugins', timeout: 120,
+        is_parallel: false) # the pixel checks are timing sensitive: do not let scenarios compete for CPU
     endforeach
   endif
 endif
