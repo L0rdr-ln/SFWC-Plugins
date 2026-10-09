@@ -1,0 +1,31 @@
+# SFWC theme: dracula
+format = 1
+name = Dracula
+
+[colors]
+background       = #282a36
+border_focused   = #bd93f9
+border_unfocused = #44475a
+titlebar_focused   = #44475a
+titlebar_unfocused = #282a36
+title_text       = #f8f8f2
+close_button     = #ff5555
+maximize_button  = #50fa7b
+minimize_button  = #f1fa8c
+
+[geometry]
+border_width  = 2
+titlebar_height = 30
+corner_radius = 10
+button_size   = 14
+button_spacing = 8
+
+[shadow]
+enabled = true
+radius  = 24
+offset_y = 8
+color   = #00000077
+
+[font]
+family = sans
+size   = 10

@@ -10,6 +10,7 @@ in the compositor repository. What may come next: [docs/ROADMAP.md](docs/ROADMAP
 |---|---|
 | [`animations`](#animations) | open/close/move animations, workspace slides, border fade, layer surfaces; Hyprland style rules and curves; fire, squeeze and zoom effects |
 | [`wobbly`](#wobbly) | windows wobble like jelly when they move |
+| [theme pack](#theme-pack) | eight more themes (data files, not a plugin): Nord, Gruvbox, Dracula, Tokyo Night, Rosé Pine, Solarized dark and light, High Contrast |
 
 ## Install
 
@@ -23,7 +24,7 @@ meson compile -C build
 meson install -C build        # to the plugin directory of sfwc
 ```
 
-Then enable what you want in `~/.config/sfwc/sfwc.conf`; plugins are loaded, unloaded and
+Then enable what you want in `~/.config/sfwc/sfwc.conf` (the themes need no `load`, they are picked with `theme = NAME`); plugins are loaded, unloaded and
 reconfigured live when the file is saved:
 
 ```ini
@@ -130,6 +131,25 @@ wlroots' scene graph cannot warp a picture, so while a window swings it is cut i
 about 40 px that are moved and stretched along the mesh. Edges of tiles are straight, so large
 stretches can show faint seams, and big windows cost some CPU while they swing. Windows that are
 being resized or faded in are left alone.
+
+## Theme pack
+
+Not code: eight theme files that are installed where the compositor looks for themes
+(`<prefix>/share/sfwc/themes`, or copy a file to `~/.config/sfwc/themes/`). Switch with
+`theme = nord` in `sfwc.conf`; the compositor itself ships `default` and `light`.
+
+<table>
+<tr><td align="center"><img src="themes/previews/nord.svg" width="260" alt="Nord"><br><sub><b>Nord</b> · <code>theme = nord</code></sub></td><td align="center"><img src="themes/previews/gruvbox-dark.svg" width="260" alt="Gruvbox Dark"><br><sub><b>Gruvbox Dark</b> · <code>theme = gruvbox-dark</code></sub></td><td align="center"><img src="themes/previews/dracula.svg" width="260" alt="Dracula"><br><sub><b>Dracula</b> · <code>theme = dracula</code></sub></td></tr>
+<tr><td align="center"><img src="themes/previews/tokyo-night.svg" width="260" alt="Tokyo Night"><br><sub><b>Tokyo Night</b> · <code>theme = tokyo-night</code></sub></td><td align="center"><img src="themes/previews/rose-pine.svg" width="260" alt="Rosé Pine"><br><sub><b>Rosé Pine</b> · <code>theme = rose-pine</code></sub></td><td align="center"><img src="themes/previews/solarized-dark.svg" width="260" alt="Solarized Dark"><br><sub><b>Solarized Dark</b> · <code>theme = solarized-dark</code></sub></td></tr>
+<tr><td align="center"><img src="themes/previews/solarized-light.svg" width="260" alt="Solarized Light"><br><sub><b>Solarized Light</b> · <code>theme = solarized-light</code></sub></td><td align="center"><img src="themes/previews/high-contrast.svg" width="260" alt="High Contrast"><br><sub><b>High Contrast</b> · <code>theme = high-contrast</code></sub></td></tr>
+</table>
+
+<sub>The pictures are mock-ups drawn from each theme file by `tools/theme-preview.py` (colors,
+borders, corner radius, buttons, shadow), not screenshots. The colors follow the well-known
+palettes of those names; `solarized-light` uses a darker text color than the original so that the
+title text reaches a 4.5:1 contrast ratio. The tests check every theme for readable contrast with
+the compositor's theme parser and that its preview is current. The format and how to write your
+own theme: the compositor's docs/THEMES.md.</sub>
 
 ## Building against a compositor checkout
 

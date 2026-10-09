@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="330" viewBox="0 0 560 330" role="img" aria-label="Mock-up of the Solarized Dark theme">
+<title>Solarized Dark (mock-up generated from the theme file)</title>
+<defs>
+<filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="4" stdDeviation="7.0" flood-color="#000000" flood-opacity="0.50"/></filter>
+</defs>
+<rect width="560" height="330" fill="#002b36"/>
+<g filter="url(#shadow)">
+<rect x="36" y="40" width="330" height="190" rx="4" fill="#073642"/>
+<path d="M38 68 V46 Q38 42 42 42 H360 Q364 42 364 46 V68 Z" fill="#002b36"/>
+<rect x="38" y="68" width="326" height="160" fill="#0a333d"/>
+</g>
+<text x="50" y="59.2" font-family="sans-serif" font-size="12" fill="#93a1a1">Files</text>
+<circle cx="348.0" cy="55.0" r="6.0" fill="#dc322f"/>
+<circle cx="328.0" cy="55.0" r="6.0" fill="#859900"/>
+<circle cx="308.0" cy="55.0" r="6.0" fill="#b58900"/>
+<rect x="52" y="84" width="238" height="8" rx="3" fill="#93a1a1" opacity="0.28"/>
+<rect x="52" y="102" width="164" height="8" rx="3" fill="#93a1a1" opacity="0.28"/>
+<rect x="52" y="120" width="209" height="8" rx="3" fill="#93a1a1" opacity="0.28"/>
+<rect x="52" y="138" width="119" height="8" rx="3" fill="#93a1a1" opacity="0.28"/>
+<g filter="url(#shadow)">
+<rect x="170" y="105" width="350" height="190" rx="4" fill="#268bd2"/>
+<path d="M172 133 V111 Q172 107 176 107 H514 Q518 107 518 111 V133 Z" fill="#073642"/>
+<rect x="172" y="133" width="346" height="160" fill="#0a333d"/>
+</g>
+<text x="184" y="124.2" font-family="sans-serif" font-size="12" fill="#93a1a1">Terminal</text>
+<circle cx="502.0" cy="120.0" r="6.0" fill="#dc322f"/>
+<circle cx="482.0" cy="120.0" r="6.0" fill="#859900"/>
+<circle cx="462.0" cy="120.0" r="6.0" fill="#b58900"/>
+<rect x="186" y="149" width="159" height="8" rx="3" fill="#93a1a1" opacity="0.28"/>
+<rect x="186" y="167" width="238" height="8" rx="3" fill="#93a1a1" opacity="0.28"/>
+<rect x="186" y="185" width="111" height="8" rx="3" fill="#93a1a1" opacity="0.28"/>
+<rect x="186" y="203" width="191" height="8" rx="3" fill="#93a1a1" opacity="0.28"/>
+<rect x="186" y="221" width="143" height="8" rx="3" fill="#93a1a1" opacity="0.28"/>
+</svg>

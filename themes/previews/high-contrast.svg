@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="330" viewBox="0 0 560 330" role="img" aria-label="Mock-up of the High Contrast theme">
+<title>High Contrast (mock-up generated from the theme file)</title>
+<defs>
+</defs>
+<rect width="560" height="330" fill="#000000"/>
+<g>
+<rect x="36" y="40" width="330" height="190" rx="0" fill="#808080"/>
+<rect x="40" y="44" width="322" height="34" fill="#1a1a1a"/>
+<rect x="40" y="78" width="322" height="148" fill="#121212"/>
+</g>
+<text x="52" y="65.9" font-family="sans-serif" font-size="14" fill="#ffffff">Files</text>
+<circle cx="343.0" cy="61.0" r="9.0" fill="#ff4040"/>
+<circle cx="315.0" cy="61.0" r="9.0" fill="#40ff40"/>
+<circle cx="287.0" cy="61.0" r="9.0" fill="#ffff40"/>
+<rect x="54" y="94" width="235" height="8" rx="3" fill="#ffffff" opacity="0.28"/>
+<rect x="54" y="112" width="162" height="8" rx="3" fill="#ffffff" opacity="0.28"/>
+<rect x="54" y="130" width="206" height="8" rx="3" fill="#ffffff" opacity="0.28"/>
+<rect x="54" y="148" width="118" height="8" rx="3" fill="#ffffff" opacity="0.28"/>
+<g>
+<rect x="170" y="105" width="350" height="190" rx="0" fill="#ffff00"/>
+<rect x="174" y="109" width="342" height="34" fill="#000000"/>
+<rect x="174" y="143" width="342" height="148" fill="#121212"/>
+</g>
+<text x="186" y="130.9" font-family="sans-serif" font-size="14" fill="#ffffff">Terminal</text>
+<circle cx="497.0" cy="126.0" r="9.0" fill="#ff4040"/>
+<circle cx="469.0" cy="126.0" r="9.0" fill="#40ff40"/>
+<circle cx="441.0" cy="126.0" r="9.0" fill="#ffff40"/>
+<rect x="188" y="159" width="157" height="8" rx="3" fill="#ffffff" opacity="0.28"/>
+<rect x="188" y="177" width="236" height="8" rx="3" fill="#ffffff" opacity="0.28"/>
+<rect x="188" y="195" width="110" height="8" rx="3" fill="#ffffff" opacity="0.28"/>
+<rect x="188" y="213" width="188" height="8" rx="3" fill="#ffffff" opacity="0.28"/>
+<rect x="188" y="231" width="141" height="8" rx="3" fill="#ffffff" opacity="0.28"/>
+</svg>

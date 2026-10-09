@@ -1,0 +1,31 @@
+# SFWC theme: solarized-light
+format = 1
+name = Solarized Light
+
+[colors]
+background       = #fdf6e3
+border_focused   = #268bd2
+border_unfocused = #eee8d5
+titlebar_focused   = #eee8d5
+titlebar_unfocused = #fdf6e3
+title_text       = #44575e
+close_button     = #dc322f
+maximize_button  = #859900
+minimize_button  = #b58900
+
+[geometry]
+border_width  = 1
+titlebar_height = 26
+corner_radius = 4
+button_size   = 12
+button_spacing = 8
+
+[shadow]
+enabled = true
+radius  = 12
+offset_y = 3
+color   = #00000033
+
+[font]
+family = sans
+size   = 10

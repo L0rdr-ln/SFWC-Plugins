@@ -1,0 +1,31 @@
+# SFWC theme: gruvbox-dark
+format = 1
+name = Gruvbox Dark
+
+[colors]
+background       = #282828
+border_focused   = #d79921
+border_unfocused = #504945
+titlebar_focused   = #3c3836
+titlebar_unfocused = #282828
+title_text       = #ebdbb2
+close_button     = #fb4934
+maximize_button  = #b8bb26
+minimize_button  = #fabd2f
+
+[geometry]
+border_width  = 3
+titlebar_height = 26
+corner_radius = 0
+button_size   = 12
+button_spacing = 8
+
+[shadow]
+enabled = true
+radius  = 14
+offset_y = 4
+color   = #00000080
+
+[font]
+family = monospace
+size   = 10

@@ -12,6 +12,8 @@ by how well they fit the API today, not promises. Check things off when they lan
 - [x] CI: unit tests under ASan/UBSan, plugins built against the compositor as a subproject, the
       compositor's end-to-end scenarios run with the plugins loaded
 
+- [x] Theme pack: the eight extra themes of the compositor, with previews and tests
+
 ## Fits the API today
 - [ ] `dim-inactive`: dim windows that do not have the focus (opacity, with a fade); needs only
       the focus hook and the scene tree

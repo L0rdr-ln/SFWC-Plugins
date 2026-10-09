@@ -1,0 +1,31 @@
+# SFWC theme: high-contrast
+format = 1
+name = High Contrast
+
+[colors]
+background       = #000000
+border_focused   = #ffff00
+border_unfocused = #808080
+titlebar_focused   = #000000
+titlebar_unfocused = #1a1a1a
+title_text       = #ffffff
+close_button     = #ff4040
+maximize_button  = #40ff40
+minimize_button  = #ffff40
+
+[geometry]
+border_width  = 4
+titlebar_height = 34
+corner_radius = 0
+button_size   = 18
+button_spacing = 10
+
+[shadow]
+enabled = false
+radius  = 0
+offset_y = 0
+color   = #00000000
+
+[font]
+family = sans
+size   = 12

@@ -1,0 +1,31 @@
+# SFWC theme: rose-pine
+format = 1
+name = Rose Pine
+
+[colors]
+background       = #191724
+border_focused   = #c4a7e7
+border_unfocused = #403d52
+titlebar_focused   = #26233a
+titlebar_unfocused = #191724
+title_text       = #e0def4
+close_button     = #eb6f92
+maximize_button  = #9ccfd8
+minimize_button  = #f6c177
+
+[geometry]
+border_width  = 2
+titlebar_height = 28
+corner_radius = 12
+button_size   = 14
+button_spacing = 10
+
+[shadow]
+enabled = true
+radius  = 24
+offset_y = 8
+color   = #00000066
+
+[font]
+family = sans
+size   = 10

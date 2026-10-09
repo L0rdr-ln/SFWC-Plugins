@@ -1,0 +1,31 @@
+# SFWC theme: nord
+format = 1
+name = Nord
+
+[colors]
+background       = #2e3440
+border_focused   = #88c0d0
+border_unfocused = #3b4252
+titlebar_focused   = #434c5e
+titlebar_unfocused = #2e3440
+title_text       = #eceff4
+close_button     = #bf616a
+maximize_button  = #a3be8c
+minimize_button  = #ebcb8b
+
+[geometry]
+border_width  = 2
+titlebar_height = 28
+corner_radius = 6
+button_size   = 14
+button_spacing = 8
+
+[shadow]
+enabled = true
+radius  = 20
+offset_y = 6
+color   = #00000066
+
+[font]
+family = sans
+size   = 10

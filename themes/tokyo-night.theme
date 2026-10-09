@@ -1,0 +1,31 @@
+# SFWC theme: tokyo-night
+format = 1
+name = Tokyo Night
+
+[colors]
+background       = #1a1b26
+border_focused   = #7aa2f7
+border_unfocused = #3b4261
+titlebar_focused   = #24283b
+titlebar_unfocused = #1a1b26
+title_text       = #c0caf5
+close_button     = #f7768e
+maximize_button  = #9ece6a
+minimize_button  = #e0af68
+
+[geometry]
+border_width  = 2
+titlebar_height = 28
+corner_radius = 8
+button_size   = 14
+button_spacing = 8
+
+[shadow]
+enabled = true
+radius  = 22
+offset_y = 7
+color   = #00000070
+
+[font]
+family = sans
+size   = 10

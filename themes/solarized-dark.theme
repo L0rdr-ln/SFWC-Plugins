@@ -1,0 +1,31 @@
+# SFWC theme: solarized-dark
+format = 1
+name = Solarized Dark
+
+[colors]
+background       = #002b36
+border_focused   = #268bd2
+border_unfocused = #073642
+titlebar_focused   = #073642
+titlebar_unfocused = #002b36
+title_text       = #93a1a1
+close_button     = #dc322f
+maximize_button  = #859900
+minimize_button  = #b58900
+
+[geometry]
+border_width  = 2
+titlebar_height = 26
+corner_radius = 4
+button_size   = 12
+button_spacing = 8
+
+[shadow]
+enabled = true
+radius  = 14
+offset_y = 4
+color   = #00000080
+
+[font]
+family = sans
+size   = 10
