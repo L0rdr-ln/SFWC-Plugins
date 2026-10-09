@@ -11,7 +11,7 @@ libm = meson.get_compiler('c').find_library('m')
 # Header and wlroots come from the installed sfwc (pkg-config: sfwc-plugin). Plugins must be
 # built against the same wlroots as the compositor that loads them.
 sfwc_plugin = dependency('sfwc-plugin')
-wlroots = dependency('wlroots-0.18')
+wlroots = dependency('wlroots-0.20')
 wayland_server = dependency('wayland-server')
 
 # Where the compositor looks for plugins (the install directory of sfwc by default).

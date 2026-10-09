@@ -12,7 +12,7 @@ you only install what you want. How plugins work: the compositor's
 ## Build and install
 
 Needs sfwc installed (it installs the `sfwc-plugin` pkg-config file and the header) and the same
-wlroots version it was built with.
+wlroots version it was built with (0.20).
 
 ```sh
 meson setup build
