@@ -1,0 +1,46 @@
+name: build
+on: [push, pull_request]
+jobs:
+  plugins:
+    timeout-minutes: 30
+    runs-on: ubuntu-24.04
+    env:
+      PREFIX: ${{ github.workspace }}/prefix
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check out sfwc (the compositor the plugins are built against)
+        uses: actions/checkout@v4
+        with:
+          repository: L0rdr-ln/Simple-Floating-Wayland-Compositor
+          ref: main
+          path: sfwc
+      - name: Install dependencies
+        run: |
+          sudo DEBIAN_FRONTEND=noninteractive NEEDRESTART_MODE=a apt-get -o Acquire::Retries=3 update
+          sudo DEBIAN_FRONTEND=noninteractive NEEDRESTART_MODE=a apt-get -o Acquire::Retries=3 install -y meson ninja-build pkg-config gcc git cmake \
+            libwayland-dev wayland-protocols libxkbcommon-dev libcairo2-dev libpango1.0-dev libfontconfig-dev fonts-dejavu-core libpixman-1-dev \
+            libdrm-dev libinput-dev libudev-dev libseat-dev libegl-dev libgles-dev \
+            libgbm-dev libvulkan-dev glslang-tools hwdata libdisplay-info-dev \
+            libliftoff-dev libxcb1-dev libxcb-composite0-dev libxcb-icccm4-dev \
+            libxcb-render0-dev libxcb-xfixes0-dev libxcb-res0-dev libxcb-ewmh-dev \
+            libxcb-dri3-dev libxcb-present-dev libxcb-shm0-dev libxcb-xinput-dev \
+            libxcb-render-util0-dev
+      - name: Newer meson (wlroots 0.18.2 needs meson >= 1.4)
+        run: python3 -m pip install --user "meson>=1.4,<2" && echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      - name: Build and install sfwc (with the wlroots it needs) into a private prefix
+        run: |
+          cd sfwc
+          meson setup build --prefix "$PREFIX" -Dwlroots:examples=false -Dwayland:documentation=false -Dwayland:tests=false -Dwayland:dtd_validation=false
+          meson compile -C build
+          meson install -C build
+      - name: Build the plugins and run their unit tests
+        run: |
+          export PKG_CONFIG_PATH="$(dirname "$(find "$PREFIX" -name sfwc-plugin.pc | head -n1)")"
+          export LD_LIBRARY_PATH="$(dirname "$(find "$PREFIX" -name 'libwlroots*.so' | head -n1)")"
+          meson setup build -Db_sanitize=address,undefined -Db_lundef=false --prefix "$PREFIX"
+          meson compile -C build
+          meson test -C build --print-errorlogs
+      - name: End-to-end test of the plugins in the compositor
+        run: |
+          export LD_LIBRARY_PATH="$(dirname "$(find "$PREFIX" -name 'libwlroots*.so' | head -n1)")"
+          SFWC_PLUGIN_PATH="$PWD/build" bash sfwc/tests/run_client_test.sh sfwc/build/sfwc sfwc/build/tests/client_test wobbly
