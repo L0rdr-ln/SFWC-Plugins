@@ -33,7 +33,7 @@ by how well they fit the API today, not promises. Check things off when they lan
 - [ ] `ipc` / `sfwcctl`: a socket to list and control windows (window control)
 
 ## Not possible with the scene graph (so not planned)
-- Real GPU effects: blur, window rotation (Wayfire's spin), the cube. wlroots' scene graph draws
+- Real GPU effects: blur behind other windows (the `blur` plugin only frosts the wallpaper), window rotation (Wayfire's spin), the cube. wlroots' scene graph draws
   pictures and rectangles; a plugin cannot run shaders on them. A different renderer would be
   needed.
 

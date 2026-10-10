@@ -9,6 +9,7 @@ in the compositor repository. What may come next: [docs/ROADMAP.md](docs/ROADMAP
 | plugin | what it does |
 |---|---|
 | [`animations`](#animations) | open/close/move animations, workspace slides, border fade, layer surfaces; Hyprland style rules and curves; fire, squeeze and zoom effects |
+| [`blur`](#blur) | frosted wallpaper behind translucent windows and panels (software blur) |
 | [`wobbly`](#wobbly) | windows wobble like jelly when they move |
 | [theme pack](#theme-pack) | eight more themes (data files, not a plugin): Nord, Gruvbox, Dracula, Tokyo Night, Rosé Pine, Solarized dark and light, High Contrast |
 
@@ -114,6 +115,29 @@ fire_color = #ff7a18      # the main color of the flames; the core is white-yell
 - Not possible with the scene graph, so not offered: Wayfire's `spin` (rotation) and the
   GPU-shader effects.
 
+## blur
+
+```ini
+[plugins]
+load = blur
+[plugin:blur]
+radius = 24     # blur size in pixels, 2 to 100
+passes = 3      # box filter passes, 1 to 5 (more = smoother, slower)
+shrink = 4      # the wallpaper is made this many times smaller before blurring, 1 to 16
+windows = true  # behind windows
+layers = true   # behind panels, launchers, notifications
+frame = false   # true: behind the title bar too, not only the client area
+```
+
+wlroots 0.20 has no blur, and a plugin cannot read back what is behind a window. So this is the
+"pseudo transparency" kind: the wallpaper (the layer-shell surface that fills an output at the
+bottom) is blurred in software whenever it changes, and the matching piece of the blurred picture
+sits right behind every window and panel. A translucent window or panel shows a frosted
+wallpaper. **Other windows behind a window are not blurred**, only the wallpaper. It needs a
+wallpaper in shared memory (swaybg, hyprpaper and most others); with a GPU buffer the plugin does
+nothing. Windows are only frosted where they are translucent, so give your windows or panels some
+transparency (a client setting, or a theme with an alpha title bar).
+
 ## wobbly
 
 ```ini
@@ -163,7 +187,7 @@ meson compile -C build
 meson test -C build --suite sfwc-plugins
 ```
 
-`-De2e=true` also runs the compositor's end-to-end scenarios (`wobbly`, `anim`, `hypr`, `fx`: a
+`-De2e=true` also runs the compositor's end-to-end scenarios (`wobbly`, `anim`, `hypr`, `fx`, `blur`: a
 headless sfwc, a real Wayland client, virtual input and screen captures compared pixel by pixel)
 with the plugins loaded from the build directory. `-Dmodules=false` builds only the unit tests,
 which need no compositor: the spring mesh, the animation curves and rules (with line numbers in

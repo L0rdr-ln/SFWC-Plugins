@@ -19,6 +19,9 @@ fire_lib = static_library('fire', 'animations/fire.c',
 
 test('wobbly-mesh', executable('test_wobbly', 'tests/test_wobbly.c', link_with: mesh_lib,
   include_directories: include_directories('wobbly'), dependencies: libm), suite: 'sfwc-plugins')
+boxblur_lib = static_library('boxblur', 'blur/boxblur.c', pic: true)
+test('box-blur', executable('test_boxblur', 'tests/test_boxblur.c', link_with: boxblur_lib,
+  include_directories: include_directories('blur')), suite: 'sfwc-plugins')
 test('animation-math', executable('test_anim', 'tests/test_anim.c', link_with: anim_lib,
   include_directories: include_directories('animations'), dependencies: libm), suite: 'sfwc-plugins')
 test('animation-config', executable('test_animcfg', 'tests/test_animcfg.c', link_with: [animcfg_lib, anim_lib],
@@ -57,6 +60,14 @@ if get_option('modules')
     c_args: plugin_args,
     install: true, install_dir: plugin_dir)
 
+  shared_module('blur', 'blur/blur.c',
+    name_prefix: '',
+    link_with: boxblur_lib,
+    include_directories: include_directories('blur'),
+    dependencies: [sfwc_plugin, libm],
+    c_args: plugin_args,
+    install: true, install_dir: plugin_dir)
+
   shared_module('animations', 'animations/animations.c',
     name_prefix: '',
     link_with: [animcfg_lib, anim_lib, fire_lib],
@@ -75,7 +86,7 @@ if get_option('modules')
         dependencies: [sfwc.get_variable('theme_dep'), libm],
         c_args: ['-DSRC_ROOT="' + meson.project_source_root() + '"']), suite: 'sfwc-plugins')
     run_script = meson.project_source_root() / 'subprojects/sfwc/tests/run_client_test.sh'
-    foreach mode : ['wobbly', 'anim', 'hypr', 'fx']
+    foreach mode : ['wobbly', 'anim', 'hypr', 'fx', 'blur']
       test('compositor-client-' + mode, find_program('bash'),
         args: [run_script, sfwc.get_variable('sfwc_exe'), sfwc.get_variable('client_test'), mode],
         env: {'SFWC_PLUGIN_PATH': meson.current_build_dir()},
