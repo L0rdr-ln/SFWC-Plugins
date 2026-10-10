@@ -76,6 +76,7 @@ struct item {
     struct wlr_scene_tree *tree;   /* the panel's tree */
     struct wlr_scene_buffer *node; /* the blurred piece */
     struct wl_listener destroy;
+    int kind;                      /* panels: 0 not known yet (no picture), 1 panel, 2 wallpaper */
 };
 
 static struct {
@@ -255,6 +256,8 @@ static void item_tree_destroyed(struct wl_listener *listener, void *data)
     item_free(it);
 }
 
+static void paper_new(struct wlr_scene_tree *tree);
+
 static struct item *item_new(struct sfwc_toplevel *t, struct wlr_scene_tree *tree)
 {
     struct item *it = calloc(1, sizeof *it);
@@ -325,7 +328,22 @@ static void items_update(void)
             item_place(it, &info.tree->node, box, info.visible && !info.fullscreen);
         } else if (it->tree) {
             struct wlr_box box = tree_bounds(it->tree);
-            item_place(it, &it->tree->node, &box, it->tree->node.enabled);
+            if (it->kind == 0 && box.width > 0) {
+                /* the first picture is there: a surface that fills an output is a wallpaper,
+                 * anything else is a panel */
+                struct wlr_box out;
+                G.host->output_box_at(G.host, box.x + box.width / 2.0, box.y + box.height / 2.0, &out);
+                it->kind = (out.width > 0 && covers(&out, &box)) ? 2 : 1;
+                if (it->kind == 2) {
+                    paper_new(it->tree);
+                    G.host->log(G.host, 3, "found the wallpaper");
+                }
+            }
+            if (it->kind == 1 && G.layers) {
+                item_place(it, &it->tree->node, &box, it->tree->node.enabled);
+            } else if (it->node) {
+                wlr_scene_node_set_enabled(&it->node->node, false);
+            }
         }
     }
 }
@@ -389,27 +407,22 @@ static void on_unmap(struct sfwc_host *host, struct sfwc_toplevel *t)
     }
 }
 
-static void on_layer_map(struct sfwc_host *host, struct wlr_scene_tree *tree)
+static void paper_new(struct wlr_scene_tree *tree)
 {
-    /* a surface that fills an output is a wallpaper, anything else is a panel */
-    struct wlr_box b = tree_bounds(tree);
-    struct wlr_box out;
-    host->output_box_at(host, b.x + b.width / 2.0, b.y + b.height / 2.0, &out);
-    if (b.width > 0 && out.width > 0 && covers(&out, &b)) {
-        struct paper *p = calloc(1, sizeof *p);
-        if (!p) {
-            return;
-        }
-        p->tree = tree;
-        p->destroy.notify = paper_destroyed;
-        wl_signal_add(&tree->node.events.destroy, &p->destroy);
-        p->next = G.papers;
-        G.papers = p;
+    struct paper *p = calloc(1, sizeof *p);
+    if (!p) {
         return;
     }
-    if (G.layers) {
-        item_new(NULL, tree);
-    }
+    p->tree = tree;
+    p->destroy.notify = paper_destroyed;
+    wl_signal_add(&tree->node.events.destroy, &p->destroy);
+    p->next = G.papers;
+    G.papers = p;
+}
+
+static void on_layer_map(struct sfwc_host *host, struct wlr_scene_tree *tree)
+{
+    item_new(NULL, tree); /* told apart from a wallpaper once it has a picture */
 }
 
 static void on_layer_unmap(struct sfwc_host *host, struct wlr_scene_tree *tree)
@@ -417,7 +430,7 @@ static void on_layer_unmap(struct sfwc_host *host, struct wlr_scene_tree *tree)
     for (struct paper *p = G.papers; p; p = p->next) {
         if (p->tree == tree) {
             paper_free(p);
-            return;
+            break;
         }
     }
     for (struct item *it = G.items; it; it = it->next) {
@@ -441,7 +454,7 @@ static void on_reconfigure(struct sfwc_host *host)
     /* windows are found again; panels stay (they are announced only once, when they map) */
     for (struct item *it = G.items, *next; it; it = next) {
         next = it->next;
-        if (it->t || !G.layers) {
+        if (it->t) {
             item_free(it);
         }
     }
